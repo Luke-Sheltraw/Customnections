@@ -1,0 +1,31 @@
+.left {
+	position: absolute;
+	left: 1rem;
+	top: 1rem;
+}
+
+.right {
+	position: absolute;
+	right: 1rem;
+	top: 1rem;
+}
+
+.title {
+	margin: 0;
+	font-size: min(6vw, 2rem);
+}
+
+.createNew {
+	background-color: #e91e63;
+	border-radius: 5rem;
+	width: 8rem;
+	height: 3rem;
+	border: none;
+	color: white;
+	font-weight: bold;
+	font-size: 1rem;
+}
+
+.createNew:hover {
+	cursor: pointer;
+}

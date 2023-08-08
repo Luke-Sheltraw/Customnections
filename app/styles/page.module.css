@@ -1,0 +1,162 @@
+.pageCenter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin-top: 4rem;
+}
+
+.wordContainer {
+  display: flex;
+  flex-wrap: wrap;
+  width: 90vw;
+  max-width: 50rem;
+  min-width: 20rem;
+  height: 22rem;
+}
+
+.wordBox {
+  width: 10rem;
+  height: 5rem;
+  margin: 0.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.5rem;
+  flex: 1 0 21%;
+  overflow: hidden;
+}
+
+.unselected {
+  background-color: rgb(239, 239, 231);
+}
+
+.selected {
+  background-color: rgb(69, 69, 69);
+  color: rgb(239, 239, 231);
+}
+
+.wordBox:hover, .secondaryButton:hover, .primaryButton:hover {
+  cursor: pointer;
+}
+
+.wordBox[data-disabled=true]:hover, .secondaryButton[disabled]:hover, .primaryButton[disabled]:hover {
+  cursor: default !important;
+}
+
+.wordBox[data-disabled=true], .secondaryButton[disabled], .primaryButton[disabled] {
+  filter: opacity(0.5);
+}
+
+.word {
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+.buttonGroup {
+  display: flex;
+}
+
+.circleContainer {
+  display: flex;
+  margin-left: 0.25rem;
+}
+
+.circleRemaining {
+  width: 1rem;
+  height: 1rem;
+  box-sizing: border-box;
+  border-radius: 1rem;
+  background-color: rgb(69, 69, 69);
+  margin: 0.25rem;
+}
+
+.circleUsed {
+  width: 1rem;
+  height: 1rem;
+  box-sizing: border-box;
+  border-radius: 1rem;
+  border: 0.1rem solid rgb(69, 69, 69);
+  margin: 0.25rem;
+}
+
+.remaining {
+  display: flex;
+  margin: 1rem 0;
+}
+
+.remaining p {
+  margin: 0;
+}
+
+.secondaryButton {
+  padding: 1rem 2rem;
+  border-radius: 2rem;
+  margin: 0.3rem;
+  box-sizing: border-box;
+  background: none;
+  border: 0.1rem solid rgb(69, 69, 69);
+  color: rgb(69, 69, 69);
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+.primaryButton {
+  padding: 1rem 2rem;
+  border-radius: 2rem;
+  margin: 0.3rem;
+  background-color: black;
+  color: white;
+  border: none;
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+.foundGroup {
+  flex: 1 0 84%;
+  height: 5rem;
+  border-radius: 0.5rem;
+  margin: 0.25rem;
+}
+
+.summaryWords {
+  text-align: center;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+.categoryDesc {
+  text-align: center;
+  text-transform: uppercase;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.category1 {
+  background-color: #fbd400;
+}
+
+.category2 {
+  background-color: #b5e352;
+}
+
+.category3 {
+  background-color: #729eeb;
+}
+
+.category4 {
+  background-color: #bc70c4;
+}
+
+.alertWrapper {
+  background-color: black;
+  position: absolute;
+  z-index: 5;
+  color: white;
+  padding: 0.5rem;
+  font-size: 0.9rem;
+  border-radius: 0.3rem;
+  transform: translateX(-50%);
+  left: 50%;
+  top: 2rem;
+}
