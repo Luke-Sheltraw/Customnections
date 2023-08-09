@@ -3,6 +3,7 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import styles from 'app/styles/page.module.css';
 import Alert from './Alert';
 import { type GROUP } from './../consts';
+import { Textfit } from 'react-textfit';
 
 const NUM_GUESSES: number = 4;
 const ALERT_DELAY_MS: number = 2000;
@@ -144,9 +145,11 @@ const Board = ({ game }: { game: GROUP[] }) => {
             onClick={ () => handleClick(word) }
             data-disabled={ gameOver }
           >
-            <p className={ styles.word }>
-              { word }
-            </p>
+            <div className={ styles.wordPadding }>
+              <Textfit mode="multi" className={ styles.textfit }>
+                { word }
+              </Textfit>
+            </div>
           </div>
         )
       }

@@ -24,7 +24,22 @@
   justify-content: center;
   border-radius: 0.5rem;
   flex: 1 0 21%;
-  overflow: hidden;
+  overflow: auto;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+.wordPadding {
+  width: 60%;
+  height: 60%;
+}
+
+.textfit {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .unselected {
@@ -46,11 +61,6 @@
 
 .wordBox[data-disabled=true], .secondaryButton[disabled], .primaryButton[disabled] {
   filter: opacity(0.5);
-}
-
-.word {
-  text-transform: uppercase;
-  font-weight: bold;
 }
 
 .buttonGroup {
