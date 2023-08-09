@@ -1,12 +1,13 @@
 import CreationSpace from './../components/CreationSpace';
 import styles from 'app/styles/header.module.css';
+import Link from 'next/link';
 
-const Create = () => {
+const Create = async () => {
 	return (
 		<main>
 		<div>
 			<div className={ styles.left }>
-				<h1 className={ styles.title }>Customnections</h1>
+				<Link href="/" className={ styles.titleLink } ><h1 className={ styles.title }>Customnections</h1></Link>
 			</div>
 		</div>
 		<CreationSpace />

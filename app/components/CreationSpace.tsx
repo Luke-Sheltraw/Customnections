@@ -1,23 +1,33 @@
 'use client'
 import styles from 'app/styles/page.module.css';
 import formStyles from 'app/styles/form.module.css';
-import { FormEvent, useRef } from 'react';
+import { FormEvent, useRef, useState } from 'react';
+import { type GROUP } from './../consts';
+import create from './../actions/create';
+import { useRouter } from 'next/navigation';
 
 const CreationSpace = () => {
+	const [submitted, setSubmitted] = useState(false);
 	const form = useRef<HTMLFormElement>(null);
+	const router = useRouter();
 
-	const submit = (event: FormEvent<HTMLFormElement>) => {
+	const submit = async (event: FormEvent<HTMLFormElement>) => {
+		if (submitted) {
+			return;
+		}
+		setSubmitted(true);
 		event.preventDefault();
 		const form = event.target as HTMLFormElement;
 		const data = new FormData(form);
-		const game = Array.from({ length: 4 }).map((_, num) => (
+		const game: GROUP[] = Array.from({ length: 4 }).map((_, num) => (
 			{
-				words: data.getAll(`word${ num }`),
-				desc: data.get(`desc${ num }`),
+				words: data.getAll(`word${ num }`).map((w) => w.toString()) as string[],
+				desc: data.get(`desc${ num }`)?.toString() || '' as string,
 				difficulty: num + 1,
 			}
 		));
-		console.log(game);
+		const newKey = await create(game);
+		router.push(`/game/${ newKey }`);
 	};
 
 	return (
@@ -53,7 +63,7 @@ const CreationSpace = () => {
 						</div>
 					)
 				}
-				<input type="submit" value="Create" className={ formStyles.submit }/>
+				<input type="submit" value="Create" className={ formStyles.submit } disabled={ submitted }/>
 			</form>
 		</div>
 	);

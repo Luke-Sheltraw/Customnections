@@ -13,6 +13,11 @@
 .title {
 	margin: 0;
 	font-size: min(6vw, 2rem);
+	color: black;
+}
+
+.titleLink {
+	text-decoration: none;
 }
 
 .createNew {

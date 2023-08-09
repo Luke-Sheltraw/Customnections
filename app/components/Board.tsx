@@ -2,42 +2,11 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import styles from 'app/styles/page.module.css';
 import Alert from './Alert';
+import { type GROUP } from './../consts';
 
 const NUM_GUESSES: number = 4;
 const ALERT_DELAY_MS: number = 2000;
 
-type GROUP = { words: string[], desc: string, difficulty: number }
-
-const WORDS: GROUP[] = [
-	{
-    words: ['one1', 'one2', 'one3', 'one4'],
-    desc: 'desc_one',
-    difficulty: 1,
-  },
-  {
-    words: ['two1', 'two2', 'two3', 'two4'],
-    desc: 'desc_two',
-    difficulty: 2,
-  },
-  {
-    words: ['three1', 'three2', 'three3', 'three4'],
-    desc: 'desc_three',
-    difficulty: 3,
-  },
-  {
-    words: ['four1', 'four2', 'four3', 'four4'],
-    desc: 'desc_four',
-    difficulty: 4,
-  },
-];
-
-const getGroupObjFromWord = (word: string): GROUP => {
-  for (let i = 0; i < WORDS.length; i += 1) {
-    if (WORDS[i].words.includes(word)) return WORDS[i];
-  }
-  throw new Error('Non-original word passed to search func');
-}
-  
 const shuffleWords = (toShuffle: string[][]): string[] => {
   if (toShuffle.length === 0) return [];
 	const allTogether: string[] = toShuffle.reduce((prev, cur) => [...prev, ...cur]);
@@ -48,8 +17,8 @@ const shuffleWords = (toShuffle: string[][]): string[] => {
 	return allTogether;
 };
 
-const Board = () => {
-  const [activeWords, setActiveWords] = useState<string[][]>(WORDS.map((item) => item.words));
+const Board = ({ game }: { game: GROUP[] }) => {
+  const [activeWords, setActiveWords] = useState<string[][]>(game.map((item) => item.words));
   const [foundGroups, setFoundGroups] = useState<GROUP[]>([]);
 	const [shuffledWords, setShuffledWords] = useState<string[]>([]);
   const [selectedWords, setSelectedWords] = useState<string[]>([]);
@@ -59,6 +28,13 @@ const Board = () => {
   const [showMsg, setShowMsg] = useState<boolean>(false);
   const msgTimeout = useRef<number>();
   const previousGuesses = useRef<string[][]>([])
+
+  const getGroupObjFromWord = (word: string): GROUP => {
+    for (let i = 0; i < game.length; i += 1) {
+      if (game[i].words.includes(word)) return game[i];
+    }
+    throw new Error('Non-original word passed to search func');
+  }
 
   const showAlert = (msgText: string, permanent?: boolean) => {
     setMsg(msgText);
@@ -161,9 +137,9 @@ const Board = () => {
           ))
       }
       {
-        shuffledWords.map((word) => 
+        shuffledWords.map((word, i) => 
           <div 
-            key={ word }
+            key={ `${word}_${i}` }
             className={ `${ styles.wordBox } ${ selectedWords.includes(word) ? styles.selected : styles.unselected }`}
             onClick={ () => handleClick(word) }
             data-disabled={ gameOver }
