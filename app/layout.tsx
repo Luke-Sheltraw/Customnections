@@ -6,7 +6,7 @@ const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   title: 'Customnections',
-  description: 'Custom Connections games',
+  description: 'Make your own version of the Connections game',
 }
 
 export default function RootLayout({

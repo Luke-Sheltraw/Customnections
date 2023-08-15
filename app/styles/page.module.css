@@ -100,26 +100,35 @@
 }
 
 .secondaryButton {
-  padding: 1rem 2rem;
-  border-radius: 2rem;
-  margin: 0.3rem;
-  box-sizing: border-box;
   background: none;
   border: 0.1rem solid rgb(69, 69, 69);
   color: rgb(69, 69, 69);
+}
+
+.primaryButton {
+  background-color: black;
+  color: white;
+  border: none;
+}
+
+.primaryButton, .secondaryButton {
+  border-radius: 2rem;
+  margin: 0.3rem;
+  box-sizing: border-box;
   font-weight: bold;
   font-size: 1rem;
 }
 
-.primaryButton {
-  padding: 1rem 2rem;
-  border-radius: 2rem;
-  margin: 0.3rem;
-  background-color: black;
-  color: white;
-  border: none;
-  font-weight: bold;
-  font-size: 1rem;
+@media only screen and (max-width: 600px) {
+  .primaryButton, .secondaryButton {
+    padding: 1rem;
+  }
+}
+
+@media only screen and (min-width: 600px) {
+  .primaryButton, .secondaryButton {
+    padding: 1rem 2rem;
+  }
 }
 
 .foundGroup {
@@ -169,4 +178,36 @@
   transform: translateX(-50%);
   left: 50%;
   top: 2rem;
+}
+
+.gameWonWrapper {
+  display: flex;
+  background-color: white;
+  position: absolute;
+  box-shadow: 0 0 10rem 0.01rem gray;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  left: 50%;
+  top: 40%;
+  transform: translate(-50%, -50%);
+  z-index: 999;
+  height: 30rem;
+  width: 20rem;
+  border-radius: 0.5rem;
+}
+
+.moveRow {
+  padding: 0;
+  margin: -0.1rem;
+  font-size: 1.5rem;
+}
+
+.movesWrapper {
+  margin-top: 3rem;
+}
+
+.gameWonMsg {
+  margin-top: 3rem;
+  margin-bottom: 0;
 }

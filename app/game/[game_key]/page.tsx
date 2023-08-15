@@ -18,7 +18,7 @@ const Home = async ({ params }: { params: { game_key: string } }) => {
           <Link href="/create"><button className={ styles.createNew }>Create New</button></Link>
         </div>
       </div>
-      <Board game={ rows[0]['game_info'] } />
+      <Board game={ rows[0]['game_info'] } gameId={ params.game_key } />
     </main>
   );
 }

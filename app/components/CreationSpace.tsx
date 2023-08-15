@@ -26,6 +26,12 @@ const CreationSpace = () => {
 				difficulty: num + 1,
 			}
 		));
+		const allWords: string[] = game.reduce((prev: string[], cur: GROUP) => [...prev, ...cur.words], []);
+		if (new Set<string>(allWords).size !== allWords.length) { // duplicates
+			window.alert('You cannot input duplicate words');
+			setSubmitted(false);
+			return;
+		}
 		const newKey = await create(game);
 		router.push(`/game/${ newKey }`);
 	};

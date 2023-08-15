@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import styles from 'app/styles/page.module.css';
 import Alert from './Alert';
+import GameWon from './GameWon';
 import { type GROUP } from './../consts';
 import { Textfit } from 'react-textfit';
 
@@ -18,7 +19,17 @@ const shuffleWords = (toShuffle: string[][]): string[] => {
 	return allTogether;
 };
 
-const Board = ({ game }: { game: GROUP[] }) => {
+const emojiFrom = (diff: number): string => {
+  switch (diff) {
+    case 1: return '🟨';
+    case 2: return '🟩';
+    case 3: return '🟦';
+    case 4: return '🟪';
+    default: return '';
+  }
+};
+
+const Board = ({ game, gameId }: { game: GROUP[], gameId: string }) => {
   const [activeWords, setActiveWords] = useState<string[][]>(game.map((item) => item.words));
   const [foundGroups, setFoundGroups] = useState<GROUP[]>([]);
 	const [shuffledWords, setShuffledWords] = useState<string[]>([]);
@@ -27,17 +38,12 @@ const Board = ({ game }: { game: GROUP[] }) => {
   const [gameOver, setGameOver] = useState<boolean>(false);
   const [msg, setMsg] = useState<string>('');
   const [showMsg, setShowMsg] = useState<boolean>(false);
+  const [showGameWon, setShowGameWon] = useState<boolean>(false);
+  const gameHistory = useRef<string[][]>([]);
   const msgTimeout = useRef<number>();
   const previousGuesses = useRef<string[][]>([])
 
-  const getGroupObjFromWord = (word: string): GROUP => {
-    for (let i = 0; i < game.length; i += 1) {
-      if (game[i].words.includes(word)) return game[i];
-    }
-    throw new Error('Non-original word passed to search func');
-  }
-
-  const showAlert = (msgText: string, permanent?: boolean) => {
+  const showAlert = (msgText: string, permanent?: boolean): void => {
     setMsg(msgText);
     setShowMsg(true);
     clearTimeout(msgTimeout.current);
@@ -57,6 +63,7 @@ const Board = ({ game }: { game: GROUP[] }) => {
   useEffect(() => {
     if (activeWords.length === 0) {
       showAlert('You won!', true);
+      setShowGameWon(true);
       setGameOver(true);
     }
   }, [activeWords]);
@@ -68,14 +75,7 @@ const Board = ({ game }: { game: GROUP[] }) => {
     }
   }, [mistakesRemaining]);
 
-  const groupOf = (word: string): number => {
-    for (let i = 0; i < activeWords.length; i += 1) {
-      if (activeWords[i].includes(word)) return i;
-    }
-    return -1;
-  }
-
-  const handleClick = (word: string) => {
+  const handleClick = (word: string): void => {
     if (selectedWords.includes(word)) {
       setSelectedWords((words: string[]) => words.filter((w) => w !== word));
     } else if (selectedWords.length < 4) {
@@ -83,9 +83,9 @@ const Board = ({ game }: { game: GROUP[] }) => {
     }
   };
 
-  const deselectAll = () => {
+  const deselectAll = useCallback(() => {
     setSelectedWords([]);
-  };
+  }, []);
 
   const previouslyGuessed = (words: string[]): boolean => {
     return previousGuesses.current.some((guess) =>
@@ -93,8 +93,25 @@ const Board = ({ game }: { game: GROUP[] }) => {
     );
   };
 
-  const submit = () => {
+  const submit = useCallback(() => {
+    const groupOf = (word: string): number => {
+      for (let i = 0; i < activeWords.length; i += 1) {
+        if (activeWords[i].includes(word)) return i;
+      }
+      return -1;
+    }
+
+    const getGroupObjFromWord = (word: string): GROUP => {
+      for (let i = 0; i < game.length; i += 1) {
+        if (game[i].words.includes(word)) return game[i];
+      }
+      throw new Error();
+    }
+
     if (selectedWords.length !== 4) return;
+
+    gameHistory.current.push(selectedWords.map((word) => emojiFrom(getGroupObjFromWord(word).difficulty)));
+
     const targetGroupIndex = groupOf(selectedWords[0]);
     if (selectedWords.every((word) => groupOf(word) === targetGroupIndex)) {
       setActiveWords(activeWords.filter((_, i) => i !== targetGroupIndex));
@@ -110,12 +127,15 @@ const Board = ({ game }: { game: GROUP[] }) => {
       previousGuesses.current = [...previousGuesses.current, selectedWords.sort()];
       setMistakesRemaining((num) => num - 1);
     }
-  };
+  }, [activeWords, game, selectedWords]);
 
 	return (
     <>
     {
      showMsg && <Alert msg={ msg }/>
+    }
+    {
+      showGameWon && <GameWon gameHistory={ gameHistory.current } gameId={ gameId } />
     }
     <div className={ styles.pageCenter }>
       <p>Create four groups of four!</p>
