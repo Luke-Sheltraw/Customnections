@@ -1,5 +1,6 @@
 import { sql } from '@vercel/postgres';
 import Board from './../../components/Board';
+import CreateNew from './../../components/CreateNew';
 import styles from './../../styles/header.module.css';
 import Link from 'next/link';
 
@@ -12,10 +13,10 @@ const Home = async ({ params }: { params: { game_key: string } }) => {
     <main>
       <div>
         <div className={ styles.left }>
-          <Link href="/" className={ styles.titleLink } ><h1 className={ styles.title }>Customnections</h1></Link>
+          <Link href="/" className={ styles.titleLink }><h1 className={ styles.title }>Customnections</h1></Link>
         </div>
         <div className={ styles.right }>
-          <Link href="/create"><button className={ styles.createNew }>Create New</button></Link>
+          <CreateNew />
         </div>
       </div>
       <Board game={ rows[0]['game_info'] } gameId={ params.game_key } />

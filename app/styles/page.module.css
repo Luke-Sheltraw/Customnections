@@ -199,15 +199,25 @@
 
 .moveRow {
   padding: 0;
-  margin: -0.1rem;
+  margin: -0.2rem 0 0 0;
   font-size: 1.5rem;
+  text-align: center;
 }
 
 .movesWrapper {
-  margin-top: 3rem;
+  margin-top: 2.7rem;
 }
 
 .gameWonMsg {
   margin-top: 3rem;
-  margin-bottom: 0;
+  margin-bottom: 0.2rem;
+}
+
+.gameWonCreateNewWrapper {
+  position: absolute;
+  bottom: 3rem;
+}
+
+.gameWonSubheading {
+  margin: 0;
 }

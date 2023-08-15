@@ -11,7 +11,7 @@ const ALERT_DELAY_MS: number = 2000;
 
 const shuffleWords = (toShuffle: string[][]): string[] => {
   if (toShuffle.length === 0) return [];
-	const allTogether: string[] = toShuffle.reduce((prev, cur) => [...prev, ...cur]);
+	const allTogether: string[] = toShuffle.reduce((prev, cur) => [...prev, ...cur], []);
 	for (let i = allTogether.length - 1; i > 0; i -= 1) {
 		const j: number = Math.floor(Math.random() * (i + 1));
 		[allTogether[i], allTogether[j]] = [allTogether[j], allTogether[i]];
@@ -39,18 +39,17 @@ const Board = ({ game, gameId }: { game: GROUP[], gameId: string }) => {
   const [msg, setMsg] = useState<string>('');
   const [showMsg, setShowMsg] = useState<boolean>(false);
   const [showGameWon, setShowGameWon] = useState<boolean>(false);
-  const gameHistory = useRef<string[][]>([]);
   const msgTimeout = useRef<number>();
   const previousGuesses = useRef<string[][]>([])
 
-  const showAlert = (msgText: string, permanent?: boolean): void => {
+  const showAlert = useCallback((msgText: string, permanent?: boolean): void => {
     setMsg(msgText);
     setShowMsg(true);
     clearTimeout(msgTimeout.current);
     if (!permanent) {
       setTimeout(() => setShowMsg(false), ALERT_DELAY_MS);
     }
-  }
+  }, []);
 
   const shuffle = useCallback(() => {
     setShuffledWords(shuffleWords(activeWords));
@@ -66,32 +65,39 @@ const Board = ({ game, gameId }: { game: GROUP[], gameId: string }) => {
       setShowGameWon(true);
       setGameOver(true);
     }
-  }, [activeWords]);
+  }, [activeWords, showAlert]);
 
   useEffect(() => {
     if (mistakesRemaining <= 0) {
       showAlert('You lost :(', true);
       setGameOver(true);
     }
-  }, [mistakesRemaining]);
+  }, [mistakesRemaining, showAlert]);
 
-  const handleClick = (word: string): void => {
+  const handleClick = useCallback((word: string): void => {
     if (selectedWords.includes(word)) {
       setSelectedWords((words: string[]) => words.filter((w) => w !== word));
     } else if (selectedWords.length < 4) {
       setSelectedWords((words: string[]) => [...words, word]);
     }
-  };
+  }, [selectedWords]);
+
+  const getGroupObjFromWord = useCallback((word: string): GROUP => {
+    for (let i = 0; i < game.length; i += 1) {
+      if (game[i].words.includes(word)) return game[i];
+    }
+    throw new Error();
+  }, [game]);
 
   const deselectAll = useCallback(() => {
     setSelectedWords([]);
   }, []);
 
-  const previouslyGuessed = (words: string[]): boolean => {
+  const previouslyGuessed = useCallback((words: string[]): boolean => {
     return previousGuesses.current.some((guess) =>
       guess.toString() === words.sort().toString()
     );
-  };
+  }, []);
 
   const submit = useCallback(() => {
     const groupOf = (word: string): number => {
@@ -101,21 +107,13 @@ const Board = ({ game, gameId }: { game: GROUP[], gameId: string }) => {
       return -1;
     }
 
-    const getGroupObjFromWord = (word: string): GROUP => {
-      for (let i = 0; i < game.length; i += 1) {
-        if (game[i].words.includes(word)) return game[i];
-      }
-      throw new Error();
-    }
-
     if (selectedWords.length !== 4) return;
-
-    gameHistory.current.push(selectedWords.map((word) => emojiFrom(getGroupObjFromWord(word).difficulty)));
 
     const targetGroupIndex = groupOf(selectedWords[0]);
     if (selectedWords.every((word) => groupOf(word) === targetGroupIndex)) {
       setActiveWords(activeWords.filter((_, i) => i !== targetGroupIndex));
       setFoundGroups((groups) => [...groups, getGroupObjFromWord(selectedWords[0])]);
+      previousGuesses.current = [...previousGuesses.current, selectedWords.sort()];
       setSelectedWords([]);
     } else if (previouslyGuessed(selectedWords)) {
       showAlert('Already guessed!');
@@ -127,7 +125,7 @@ const Board = ({ game, gameId }: { game: GROUP[], gameId: string }) => {
       previousGuesses.current = [...previousGuesses.current, selectedWords.sort()];
       setMistakesRemaining((num) => num - 1);
     }
-  }, [activeWords, game, selectedWords]);
+  }, [activeWords, getGroupObjFromWord, previouslyGuessed, selectedWords, showAlert]);
 
 	return (
     <>
@@ -135,7 +133,15 @@ const Board = ({ game, gameId }: { game: GROUP[], gameId: string }) => {
      showMsg && <Alert msg={ msg }/>
     }
     {
-      showGameWon && <GameWon gameHistory={ gameHistory.current } gameId={ gameId } />
+      showGameWon 
+      && <GameWon 
+        gameHistory={ previousGuesses.current.map((guess) =>
+            guess
+              .map((word) => emojiFrom(getGroupObjFromWord(word).difficulty))
+              .join('')
+        )} 
+        gameId={ gameId }
+      />
     }
     <div className={ styles.pageCenter }>
       <p>Create four groups of four!</p>
