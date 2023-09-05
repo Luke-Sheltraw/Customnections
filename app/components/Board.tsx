@@ -141,6 +141,7 @@ const Board = ({ game, gameId }: { game: GROUP[], gameId: string }) => {
               .join('')
         )} 
         gameId={ gameId }
+        closeCallback={ () => setShowGameWon(false) }
       />
     }
     <div className={ styles.pageCenter }>
@@ -195,9 +196,17 @@ const Board = ({ game, gameId }: { game: GROUP[], gameId: string }) => {
         </div>
       </div>
       <div className={ styles.buttonGroup }>
-        <button className={ styles.secondaryButton } onClick={ shuffle } disabled={ gameOver }>Shuffle</button>
-        <button className={ styles.secondaryButton } onClick={ deselectAll } disabled={ gameOver }>Deselect All</button>
-        <button className={ styles.primaryButton } onClick={ submit } disabled={ gameOver }>Submit</button>
+      {
+        gameOver
+        ?
+          <button className={ styles.secondaryButton } onClick={ () => setShowGameWon(true) } disabled={ !gameOver }>View Results</button>
+        :
+          <>
+            <button className={ styles.secondaryButton } onClick={ shuffle } disabled={ gameOver }>Shuffle</button>
+            <button className={ styles.secondaryButton } onClick={ deselectAll } disabled={ gameOver }>Deselect All</button>
+            <button className={ styles.primaryButton } onClick={ submit } disabled={ gameOver }>Submit</button>
+          </>
+      }
       </div>
     </div>
     </>

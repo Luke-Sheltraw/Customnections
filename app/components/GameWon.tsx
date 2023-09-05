@@ -1,9 +1,10 @@
 import styles from 'app/styles/page.module.css';
 import CreateNew from './CreateNew';
 
-const GameWon = ({ gameHistory, gameId }: { gameHistory: string[], gameId: string }) => {
+const GameWon = ({ gameHistory, gameId, closeCallback }: { gameHistory: string[], gameId: string, closeCallback: Function }) => {
 	return (
 		<div className={ styles.gameWonWrapper }>
+			<button className={ styles.closePopupButton } onClick={ () => closeCallback() }>×</button>
 			<h2 className={ styles.gameWonMsg }>Great!</h2>
 			<p className={ styles.gameWonSubheading }>Connections #{ gameId }</p>
 			<div className={ styles.movesWrapper }>
