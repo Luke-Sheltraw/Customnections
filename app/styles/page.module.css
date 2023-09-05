@@ -226,9 +226,12 @@
   background: none;
   border: none;
   position: absolute;
-  right: 0.5rem;
+  right: 1rem;
   top: 0.5rem;
   font-size: 1.5rem;
+  margin: 0;
+  padding: 0;
+  color: black;
 }
 
 .closePopupButton:hover {

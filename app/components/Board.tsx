@@ -199,7 +199,11 @@ const Board = ({ game, gameId }: { game: GROUP[], gameId: string }) => {
       {
         gameOver
         ?
-          <button className={ styles.secondaryButton } onClick={ () => setShowGameWon(true) } disabled={ !gameOver }>View Results</button>
+          <button
+            className={ styles.secondaryButton }
+            onClick={ () => setShowGameWon(true) }
+            disabled={ !gameOver || showGameWon }
+          >View Results</button>
         :
           <>
             <button className={ styles.secondaryButton } onClick={ shuffle } disabled={ gameOver }>Shuffle</button>
