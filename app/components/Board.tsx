@@ -19,8 +19,8 @@ const shuffleWords = (toShuffle: string[][]): string[] => {
 	return allTogether;
 };
 
-const emojiFrom = (diff: number): string => {
-  switch (diff) {
+const emojiFrom = (group: number): string => {
+  switch (group) {
     case 1: return '🟨';
     case 2: return '🟩';
     case 3: return '🟦';
@@ -30,17 +30,21 @@ const emojiFrom = (diff: number): string => {
 };
 
 const Board = ({ game, gameId }: { game: GROUP[], gameId: string }) => {
+  const [selectedWords, setSelectedWords] = useState<string[]>([]);
+
+  const [mistakesRemaining, setMistakesRemaining] = useState<number>(NUM_GUESSES);
+
+  const [msg, setMsg] = useState<string>('');
+  const [showMsg, setShowMsg] = useState<boolean>(false);
+  const msgTimeout = useRef<number>();
+
+  const [gameOver, setGameOver] = useState<boolean>(false);
+  const [showGameWon, setShowGameWon] = useState<boolean>(false);
+
   const [activeWords, setActiveWords] = useState<string[][]>(game.map((item) => item.words));
   const [foundGroups, setFoundGroups] = useState<GROUP[]>([]);
 	const [shuffledWords, setShuffledWords] = useState<string[]>([]);
-  const [selectedWords, setSelectedWords] = useState<string[]>([]);
-  const [mistakesRemaining, setMistakesRemaining] = useState<number>(NUM_GUESSES);
-  const [gameOver, setGameOver] = useState<boolean>(false);
-  const [msg, setMsg] = useState<string>('');
-  const [showMsg, setShowMsg] = useState<boolean>(false);
-  const [showGameWon, setShowGameWon] = useState<boolean>(false);
-  const msgTimeout = useRef<number>();
-  const previousGuesses = useRef<string[][]>([])
+  const previousGuesses = useRef<string[][]>([]);
 
   const showAlert = useCallback((msgText: string, permanent?: boolean): void => {
     setMsg(msgText);
@@ -149,7 +153,6 @@ const Board = ({ game, gameId }: { game: GROUP[], gameId: string }) => {
       <div className={ styles.wordContainer }>
       {
         foundGroups
-          .sort((a: GROUP, b: GROUP) => a.difficulty - b.difficulty)
           .map((group: GROUP) => (
             <div 
               className={ `${ styles.foundGroup } ${ styles[`category${ group.difficulty }`] }` }
