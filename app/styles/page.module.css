@@ -44,22 +44,86 @@
 
 .unselected {
   background-color: rgb(239, 239, 231);
+  animation-name: pulse-deselected;
+  animation-duration: 100ms;
+  animation-timing-function: ease-in-out;
+  animation-fill-mode: forwards;
 }
 
 .selected {
   background-color: rgb(69, 69, 69);
   color: rgb(239, 239, 231);
+  animation-name: pulse-selected;
+  animation-duration: 100ms;
+  animation-timing-function: ease-in-out;
+  animation-fill-mode: forwards;
 }
 
-.wordBox:hover, .secondaryButton:hover, .primaryButton:hover {
+@keyframes pulse-deselected {
+  0% {
+    scale: 1;
+  }
+  50% {
+    scale: 0.9;
+  }
+  100% {
+    scale: 1;
+  }
+}
+
+@keyframes pulse-selected {
+  0% {
+    scale: 1;
+  }
+  50% {
+    scale: 0.9;
+  }
+  90% {
+    scale: 1.025;
+  }
+  100% {
+    scale: 1;
+  }
+}
+
+.mistakeAnimation {
+  animation-name: mistake-shake;
+  animation-duration: 150ms;
+  animation-iteration-count: 1;
+  animation-timing-function: ease-in-out;
+  animation-fill-mode: forwards;
+}
+
+@keyframes mistake-shake {
+  0% {
+    transform: none;
+  }
+  33% {
+    transform: rotate(5deg);
+  }
+  67% {
+    transform: rotate(-5deg);
+  }
+  100% {
+    transform: none;
+  }
+}
+
+.wordBox:hover,
+.secondaryButton:hover,
+.primaryButton:hover {
   cursor: pointer;
 }
 
-.wordBox[data-disabled=true]:hover, .secondaryButton[disabled]:hover, .primaryButton[disabled]:hover {
+.wordBox[data-disabled="true"]:hover,
+.secondaryButton[disabled]:hover,
+.primaryButton[disabled]:hover {
   cursor: default !important;
 }
 
-.wordBox[data-disabled=true], .secondaryButton[disabled], .primaryButton[disabled] {
+.wordBox[data-disabled="true"],
+.secondaryButton[disabled],
+.primaryButton[disabled] {
   filter: opacity(0.5);
 }
 
@@ -111,7 +175,8 @@
   border: none;
 }
 
-.primaryButton, .secondaryButton {
+.primaryButton,
+.secondaryButton {
   border-radius: 2rem;
   margin: 0.3rem;
   box-sizing: border-box;
@@ -120,13 +185,15 @@
 }
 
 @media only screen and (max-width: 600px) {
-  .primaryButton, .secondaryButton {
+  .primaryButton,
+  .secondaryButton {
     padding: 1rem;
   }
 }
 
 @media only screen and (min-width: 600px) {
-  .primaryButton, .secondaryButton {
+  .primaryButton,
+  .secondaryButton {
     padding: 1rem 2rem;
   }
 }
