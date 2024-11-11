@@ -26,6 +26,7 @@
   border-radius: 0.5rem;
   flex: 1 0 21%;
   overflow: auto;
+  color: black;
   text-transform: uppercase;
   font-weight: bold;
   border: none;
