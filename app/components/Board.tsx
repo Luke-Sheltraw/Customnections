@@ -92,6 +92,7 @@ const Board: FC<BoardProps> = ({ wordGroups, gameId }) => {
       setTimeout(() => {
         setShuffledWords(words => words.slice(4));
         setFoundWordGroups(groups => [...groups, selectedWords[0].parentGroup]);
+        setSelectedWords([]);
       }, SUCCESSFUL_GUESS_ANIM_LEN_MS);
     }
 
