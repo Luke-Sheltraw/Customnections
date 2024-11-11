@@ -14,6 +14,7 @@ import {
   toDeserializedWordGroups,
 } from '../util';
 import { motion } from 'framer-motion';
+import dynamic from 'next/dynamic';
 
 const NUM_GUESSES = 4;
 const ALERT_DELAY_MS = 2000;
@@ -249,4 +250,6 @@ const Board: FC<BoardProps> = ({ wordGroups, gameId }) => {
   );
 };
 
-export default Board;
+export default dynamic(() => Promise.resolve(Board), {
+  ssr: false,
+});
