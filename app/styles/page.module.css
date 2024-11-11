@@ -7,6 +7,7 @@
 }
 
 .wordContainer {
+  position: relative;
   display: flex;
   flex-wrap: wrap;
   width: 90vw;
@@ -27,6 +28,7 @@
   overflow: auto;
   text-transform: uppercase;
   font-weight: bold;
+  border: none;
 }
 
 .wordPadding {
@@ -44,52 +46,16 @@
 
 .unselected {
   background-color: rgb(239, 239, 231);
-  animation-name: pulse-deselected;
-  animation-duration: 100ms;
-  animation-timing-function: ease-in-out;
-  animation-fill-mode: forwards;
 }
 
 .selected {
   background-color: rgb(69, 69, 69);
   color: rgb(239, 239, 231);
-  animation-name: pulse-selected;
-  animation-duration: 100ms;
-  animation-timing-function: ease-in-out;
-  animation-fill-mode: forwards;
-}
-
-@keyframes pulse-deselected {
-  0% {
-    scale: 1;
-  }
-  50% {
-    scale: 0.9;
-  }
-  100% {
-    scale: 1;
-  }
-}
-
-@keyframes pulse-selected {
-  0% {
-    scale: 1;
-  }
-  50% {
-    scale: 0.9;
-  }
-  90% {
-    scale: 1.025;
-  }
-  100% {
-    scale: 1;
-  }
 }
 
 .mistakeAnimation {
   animation-name: mistake-shake;
   animation-duration: 150ms;
-  animation-iteration-count: 1;
   animation-timing-function: ease-in-out;
   animation-fill-mode: forwards;
 }
@@ -99,10 +65,10 @@
     transform: none;
   }
   33% {
-    transform: rotate(5deg);
+    transform: rotate(1deg);
   }
   67% {
-    transform: rotate(-5deg);
+    transform: rotate(-1deg);
   }
   100% {
     transform: none;
@@ -115,13 +81,13 @@
   cursor: pointer;
 }
 
-.wordBox[data-disabled="true"]:hover,
+.wordBox:disabled:hover,
 .secondaryButton[disabled]:hover,
 .primaryButton[disabled]:hover {
   cursor: default !important;
 }
 
-.wordBox[data-disabled="true"],
+.wordBox:disabled,
 .secondaryButton[disabled],
 .primaryButton[disabled] {
   filter: opacity(0.5);
@@ -152,6 +118,19 @@
   border-radius: 1rem;
   border: 0.1rem solid rgb(69, 69, 69);
   margin: 0.25rem;
+  animation-name: circle-used;
+  animation-fill-mode: forwards;
+  animation-duration: 500ms;
+  animation-timing-function: ease-in-out;
+}
+
+@keyframes circle-used {
+  from {
+    background: rgb(173, 58, 58);
+  }
+  to {
+    background: none;
+  }
 }
 
 .remaining {
@@ -200,21 +179,46 @@
 
 .foundGroup {
   flex: 1 0 84%;
+  overflow: hidden;
   height: 5rem;
   border-radius: 0.5rem;
   margin: 0.25rem;
+  padding: 0 1rem;
+  z-index: 1;
+  animation-name: group-bounce;
+  animation-duration: 200ms;
+  animation-fill-mode: forwards;
+  animation-timing-function: ease-in-out;
+}
+
+@keyframes group-bounce {
+  0% {
+    scale: 1;
+  }
+  50% {
+    scale: 1.05;
+  }
+  100% {
+    scale: 1;
+  }
 }
 
 .summaryWords {
   text-align: center;
   text-transform: uppercase;
   margin: 0;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .categoryDesc {
   text-align: center;
   text-transform: uppercase;
   font-weight: bold;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
   margin-bottom: 0.5rem;
 }
 

@@ -1,7 +1,12 @@
 import styles from 'app/styles/page.module.css';
+import { FC } from 'react';
 
-const Alert = ({ msg }: { msg: string}) => {
-	return <div className={ styles.alertWrapper }>{ msg }</div>
+type AlertProps = {
+  message: string | null;
+};
+
+const Alert: FC<AlertProps> = ({ message }) => {
+  return message && <div className={styles.alertWrapper}>{message}</div>;
 };
 
 export default Alert;
