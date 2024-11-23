@@ -1,8 +1,8 @@
 import { sql } from '@vercel/postgres';
 import Link from 'next/link';
 
-import Board from '@/components/Board';
-import CreateNew from '@/components/CreateNew';
+import { Board } from '@/components/Board';
+import { CreateNewButton } from '@/components/CreateNewButton';
 import styles from '@/styles/header.module.css';
 
 const Home = async ({ params }: { params: { game_key: string } }) => {
@@ -20,7 +20,7 @@ const Home = async ({ params }: { params: { game_key: string } }) => {
           </Link>
         </div>
         <div className={styles.right}>
-          <CreateNew />
+          <CreateNewButton />
         </div>
       </div>
       <Board wordGroups={rows[0]['game_info']} gameId={params.game_key} />

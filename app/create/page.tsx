@@ -1,6 +1,6 @@
 import Link from 'next/link';
 
-import CreationSpace from '@/components/CreationSpace';
+import { CreationSpace } from '@/components/CreationSpace';
 import styles from '@/styles/header.module.css';
 
 const Create = async () => {

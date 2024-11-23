@@ -3,15 +3,13 @@ import { FC } from 'react';
 
 import styles from '@/styles/header.module.css';
 
-const CreateNew: FC = () => {
+export const CreateNewButton: FC = () => {
   return (
     <Link
       href="/create"
       className={[styles.createNew, 'scaleButton'].join(' ')}
     >
-      Create New
+      Create your own
     </Link>
   );
 };
-
-export default CreateNew;

@@ -30,7 +30,9 @@
 }
 
 /* Global element styles */
-button:hover {
+button:hover,
+input[type='submit']:hover,
+input[type='reset']:hover {
   cursor: pointer;
 }
 

@@ -8,7 +8,7 @@ import formStyles from '@/styles/form.module.css';
 import styles from '@/styles/page.module.css';
 import { GameBuilder, WordGroupBuilder } from '@/util';
 
-const CreationSpace: FC = () => {
+export const CreationSpace: FC = () => {
   const [submitted, setSubmitted] = useState(false);
 
   const router = useRouter();
@@ -113,5 +113,3 @@ const CreationSpace: FC = () => {
     </div>
   );
 };
-
-export default CreationSpace;

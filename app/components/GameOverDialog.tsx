@@ -4,7 +4,7 @@ import styles from '@/styles/page.module.css';
 import { Word } from '@/types';
 import { toEmoji } from '@/util';
 
-import CreateNew from './CreateNew';
+import { CreateNewButton } from './CreateNewButton';
 
 type GameOverDialogProps = {
   isWin: boolean;
@@ -14,7 +14,7 @@ type GameOverDialogProps = {
   closeCallback: () => void;
 };
 
-const GameOverDialog: FC<GameOverDialogProps> = ({
+export const GameOverDialog: FC<GameOverDialogProps> = ({
   isWin,
   isVisible,
   previousGuesses,
@@ -36,9 +36,9 @@ const GameOverDialog: FC<GameOverDialogProps> = ({
       <div className={styles.gameWonWrapperTop}>
         <h2>{isWin ? 'Great!' : 'You lost:('}</h2>
         <div>
-          {previousGuesses.map((guess: Word[], i: number) => (
-            <p key={i} className={styles.moveRow}>
-              {guess.map(word => toEmoji(word)).join('')}
+          {previousGuesses.map(guess => (
+            <p key={guess[0].id} className={styles.moveRow}>
+              {guess.map(toEmoji).join('')}
             </p>
           ))}
         </div>
@@ -48,7 +48,7 @@ const GameOverDialog: FC<GameOverDialogProps> = ({
           You just {isWin ? 'won' : 'lost'} Customnections game #{gameId}
         </p>
         <div className={styles.gameWonButtonWrapper}>
-          <CreateNew />
+          <CreateNewButton />
           <button className={styles.gameWonCloseButton} onClick={closeCallback}>
             Close
           </button>
@@ -57,5 +57,3 @@ const GameOverDialog: FC<GameOverDialogProps> = ({
     </dialog>
   );
 };
-
-export default GameOverDialog;

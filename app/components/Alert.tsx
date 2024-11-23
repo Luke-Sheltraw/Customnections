@@ -3,11 +3,9 @@ import { FC } from 'react';
 import styles from '@/styles/page.module.css';
 
 type AlertProps = {
-  message: string | null;
+  children?: string | null | false;
 };
 
-const Alert: FC<AlertProps> = ({ message }) => {
-  return message && <div className={styles.alertWrapper}>{message}</div>;
+export const Alert: FC<AlertProps> = ({ children }) => {
+  return children && <div className={styles.alertWrapper}>{children}</div>;
 };
-
-export default Alert;
