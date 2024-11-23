@@ -1,18 +1,17 @@
-'use client'
+'use client';
+
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 
 const Redirect = () => {
-	const router = useRouter();
+  const router = useRouter();
 
-	useEffect(() => {
-		router.push('/');
-	}, [router]);
+  useEffect(() => {
+    router.push('/');
+  }, [router]);
 
-	return (
-		<Link href="/">Redirecting...</Link>
-	);
+  return <Link href="/">Redirecting...</Link>;
 };
 
 export default Redirect;

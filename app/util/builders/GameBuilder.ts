@@ -1,4 +1,4 @@
-import { SerializableWordGroup, WordGroup } from '../../types';
+import { SerializableWordGroup } from '@/types';
 
 export class GameBuilder {
   wordGroups: SerializableWordGroup[] | null;

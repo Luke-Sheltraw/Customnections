@@ -1,5 +1,6 @@
 import { v4 } from 'uuid';
-import { SerializableWordGroup } from '../../types';
+
+import { SerializableWordGroup } from '@/types';
 
 export class WordGroupBuilder {
   id: string;
@@ -35,7 +36,7 @@ export class WordGroupBuilder {
 
   build = (): SerializableWordGroup => {
     if (!this.id || !this.desc || !this.difficulty || !this.words) {
-      throw new Error();
+      throw new Error("Missing required attributes");
     }
 
     return {

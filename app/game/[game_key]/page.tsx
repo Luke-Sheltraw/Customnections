@@ -1,8 +1,9 @@
 import { sql } from '@vercel/postgres';
-import Board from './../../components/Board';
-import CreateNew from './../../components/CreateNew';
-import styles from './../../styles/header.module.css';
 import Link from 'next/link';
+
+import Board from '@/components/Board';
+import CreateNew from '@/components/CreateNew';
+import styles from '@/styles/header.module.css';
 
 const Home = async ({ params }: { params: { game_key: string } }) => {
   const { rows } =

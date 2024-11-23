@@ -1,36 +1,36 @@
 .left {
-	position: absolute;
-	left: 1rem;
-	top: 1rem;
+  position: absolute;
+  left: 1rem;
+  top: 1rem;
 }
 
 .right {
-	position: absolute;
-	right: 1rem;
-	top: 1rem;
+  position: absolute;
+  right: 1rem;
+  top: 1rem;
 }
 
 .title {
-	margin: 0;
-	font-size: min(6vw, 2rem);
-	color: black;
+  margin: 0;
+  font-size: min(6vw, 2rem);
+  color: black;
 }
 
 .titleLink {
-	text-decoration: none;
+  text-decoration: none;
 }
 
 .createNew {
-	background-color: #e91e63;
-	border-radius: 5rem;
-	width: 8rem;
-	height: 3rem;
-	border: none;
-	color: white;
-	font-weight: bold;
-	font-size: 1rem;
-}
-
-.createNew:hover {
-	cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  background-color: var(--primary-color);
+  border-radius: 5rem;
+  width: 8rem;
+  height: 3rem;
+  border: none;
+  color: white;
+  font-weight: bold;
+  font-size: 1rem;
 }

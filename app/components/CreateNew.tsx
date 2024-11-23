@@ -1,10 +1,17 @@
-import Link from "next/link";
-import styles from 'app/styles/header.module.css';
+import Link from 'next/link';
+import { FC } from 'react';
 
-const CreateNew = () => {
-	return (
-		<Link href="/create"><button className={ styles.createNew }>Create New</button></Link>
-	);
-}
+import styles from '@/styles/header.module.css';
+
+const CreateNew: FC = () => {
+  return (
+    <Link
+      href="/create"
+      className={[styles.createNew, 'scaleButton'].join(' ')}
+    >
+      Create New
+    </Link>
+  );
+};
 
 export default CreateNew;

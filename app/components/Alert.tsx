@@ -1,5 +1,6 @@
-import styles from 'app/styles/page.module.css';
 import { FC } from 'react';
+
+import styles from '@/styles/page.module.css';
 
 type AlertProps = {
   message: string | null;

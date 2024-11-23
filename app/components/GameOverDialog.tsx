@@ -1,8 +1,10 @@
-import { FC } from 'react';
-import styles from 'app/styles/page.module.css';
+import { FC, useEffect, useRef } from 'react';
+
+import styles from '@/styles/page.module.css';
+import { Word } from '@/types';
+import { toEmoji } from '@/util';
+
 import CreateNew from './CreateNew';
-import { Word, WordGroup } from '../types';
-import { toEmoji } from '../util';
 
 type GameOverDialogProps = {
   isWin: boolean;
@@ -19,29 +21,40 @@ const GameOverDialog: FC<GameOverDialogProps> = ({
   gameId,
   closeCallback,
 }) => {
+  const dialogRef = useRef<HTMLDialogElement>(null);
+
+  useEffect(() => {
+    if (isVisible) {
+      dialogRef.current?.showModal();
+    } else {
+      dialogRef.current?.close();
+    }
+  }, [isVisible]);
+
   return (
-    isVisible && (
-      <div className={styles.gameWonWrapper}>
-        <button
-          className={styles.closePopupButton}
-          onClick={() => closeCallback()}
-        >
-          ×
-        </button>
-        <h2 className={styles.gameWonMsg}>{isWin ? 'Great!' : 'You lost:('}</h2>
-        <p className={styles.gameWonSubheading}>Connections #{gameId}</p>
-        <div className={styles.movesWrapper}>
+    <dialog ref={dialogRef} className={styles.gameWonWrapper}>
+      <div className={styles.gameWonWrapperTop}>
+        <h2>{isWin ? 'Great!' : 'You lost:('}</h2>
+        <div>
           {previousGuesses.map((guess: Word[], i: number) => (
             <p key={i} className={styles.moveRow}>
               {guess.map(word => toEmoji(word)).join('')}
             </p>
           ))}
         </div>
-        <div className={styles.gameWonCreateNewWrapper}>
+      </div>
+      <div className={styles.gameWonWrapperBottom}>
+        <p className={styles.gameWonSubheading}>
+          You just {isWin ? 'won' : 'lost'} Customnections game #{gameId}
+        </p>
+        <div className={styles.gameWonButtonWrapper}>
           <CreateNew />
+          <button className={styles.gameWonCloseButton} onClick={closeCallback}>
+            Close
+          </button>
         </div>
       </div>
-    )
+    </dialog>
   );
 };
 

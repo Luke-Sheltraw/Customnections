@@ -25,6 +25,7 @@
     "uuid": "^11.0.3"
   },
   "devDependencies": {
-    "@types/react-textfit": "^1.1.0"
+    "@types/react-textfit": "^1.1.0",
+    "eslint-plugin-simple-import-sort": "^12.1.1"
   }
 }

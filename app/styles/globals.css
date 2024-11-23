@@ -1,0 +1,39 @@
+:root {
+  /** === General colors === **/
+  --primary-color: #e91e63;
+
+  /** === Category colors === **/
+  --yellow-color: #ffee8b;
+  --yellow-light-color: #fff3ad;
+
+  --green-color: #cdef85;
+  --green-light-color: #cff1aa;
+
+  --blue-color: #99bfff;
+  --blue-light-color: #aecbff;
+
+  --purple-color: #d99de3;
+  --purple-light-color: #dface8;
+}
+
+/* Theme styles */
+.scaleButton {
+  transition: transform 100ms ease-in-out;
+}
+
+.scaleButton:hover {
+  transform: scale(1.025);
+}
+
+.scaleButton:active {
+  transform: scale(0.975);
+}
+
+/* Global element styles */
+button:hover {
+  cursor: pointer;
+}
+
+dialog::backdrop {
+  background-color: #afafaf2b;
+}

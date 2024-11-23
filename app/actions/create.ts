@@ -1,6 +1,7 @@
 'use server';
 
 import { sql } from '@vercel/postgres';
+
 import { SerializableWordGroup } from '../types';
 
 const SYMBOLS = 'abcdefghijklmnopqrstuvABCDEFGHIJKLMNOPQRSTUVWXZY1234567890';

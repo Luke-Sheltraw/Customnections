@@ -1,4 +1,4 @@
-import { Word } from '../types';
+import { Word } from '@/types';
 
 const DEFAULT_EMOJI = '❓';
 

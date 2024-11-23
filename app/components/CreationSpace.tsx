@@ -1,13 +1,14 @@
 'use client';
 
-import styles from 'app/styles/page.module.css';
-import formStyles from 'app/styles/form.module.css';
-import { FormEvent, useRef, useState } from 'react';
-import create from './../actions/create';
 import { useRouter } from 'next/navigation';
-import { GameBuilder, WordGroupBuilder } from '../util';
+import { FC, FormEvent, useRef, useState } from 'react';
 
-const CreationSpace = () => {
+import create from '@/actions/create';
+import formStyles from '@/styles/form.module.css';
+import styles from '@/styles/page.module.css';
+import { GameBuilder, WordGroupBuilder } from '@/util';
+
+const CreationSpace: FC = () => {
   const [submitted, setSubmitted] = useState(false);
 
   const router = useRouter();
@@ -59,40 +60,55 @@ const CreationSpace = () => {
         ref={form}
         onSubmit={submit}
       >
-        {Array.from({ length: 4 }).map((_, num) => (
-          <div key={num} className={formStyles.categoryWrapper}>
-            <h3 className={formStyles[`categoryName${num + 1}`]}>
-              Category {num + 1}
-            </h3>
-            <div className={formStyles.descWrapper}>
-              <input
-                type="text"
-                placeholder="Description"
-                className={formStyles.descInput}
-                name={`desc${num}`}
-                required
-              />
-            </div>
-            <div className={formStyles.wordsWrapper}>
-              {Array.from({ length: 4 }).map((_, i) => (
+        <div className={formStyles.formBody}>
+          {Array.from({ length: 4 }).map((_, num) => (
+            <div
+              key={num}
+              className={[
+                formStyles.categoryWrapper,
+                formStyles[`category-${num + 1}`],
+              ].join(' ')}
+            >
+              <h2>Category {num + 1}</h2>
+              <div className={formStyles.descWrapper}>
+                <label htmlFor={`desc${num}`}>Description</label>
                 <input
                   type="text"
-                  placeholder="Word"
-                  className={formStyles.wordInput}
-                  name={`word${num}`}
+                  id={`desc${num}`}
+                  name={`desc${num}`}
                   required
-                  key={i}
                 />
-              ))}
+              </div>
+              <div className={formStyles.wordsWrapper}>
+                {Array.from({ length: 4 }).map((_, i) => (
+                  <div className={formStyles.wordWrapper} key={i}>
+                    <label htmlFor={`word${num}`}>Word</label>
+                    <input
+                      type="text"
+                      id={`word${num}`}
+                      name={`word${num}`}
+                      required
+                    />
+                  </div>
+                ))}
+              </div>
             </div>
-          </div>
-        ))}
-        <input
-          type="submit"
-          value="Create"
-          className={formStyles.submit}
-          disabled={submitted}
-        />
+          ))}
+        </div>
+        <div className={formStyles.buttonWrapper}>
+          <input
+            type="reset"
+            value="Reset"
+            className={[formStyles.resetButton, 'scaleButton'].join(' ')}
+            disabled={submitted}
+          />
+          <input
+            type="submit"
+            value="Create"
+            className={[formStyles.submitButton, 'scaleButton'].join(' ')}
+            disabled={submitted}
+          />
+        </div>
       </form>
     </div>
   );

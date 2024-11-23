@@ -1,4 +1,4 @@
-import { SerializableWordGroup, WordGroup } from '../types';
+import { SerializableWordGroup, WordGroup } from '@/types';
 
 export const toDeserializedWordGroups = (
   wordGroups: SerializableWordGroup[]

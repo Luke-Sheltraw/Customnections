@@ -1,4 +1,4 @@
-import { Word } from '../types';
+import { Word } from '@/types';
 
 export const isOneAwayFromSharedParent = (words: Word[]): boolean => {
   return Object.values(

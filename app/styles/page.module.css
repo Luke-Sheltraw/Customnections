@@ -10,7 +10,7 @@
   position: relative;
   display: flex;
   flex-wrap: wrap;
-  width: 90vw;
+  width: calc(100vw - 1rem);
   max-width: 50rem;
   min-width: 20rem;
   height: 22rem;
@@ -35,6 +35,13 @@
 .wordPadding {
   width: 60%;
   height: 60%;
+}
+
+@media only screen and (max-width: 768px) {
+  .wordPadding {
+    width: 90%;
+    height: 90%;
+  }
 }
 
 .textfit {
@@ -74,12 +81,6 @@
   100% {
     transform: none;
   }
-}
-
-.wordBox:hover,
-.secondaryButton:hover,
-.primaryButton:hover {
-  cursor: pointer;
 }
 
 .wordBox:disabled:hover,
@@ -164,14 +165,14 @@
   font-size: 1rem;
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 768px) {
   .primaryButton,
   .secondaryButton {
     padding: 1rem;
   }
 }
 
-@media only screen and (min-width: 600px) {
+@media only screen and (min-width: 768px) {
   .primaryButton,
   .secondaryButton {
     padding: 1rem 2rem;
@@ -179,9 +180,13 @@
 }
 
 .foundGroup {
-  flex: 1 0 84%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   overflow: hidden;
+  flex: 1 0 84%;
   height: 5rem;
+  gap: 0.25rem;
   border-radius: 0.5rem;
   margin: 0.25rem;
   padding: 0 1rem;
@@ -205,38 +210,38 @@
 }
 
 .summaryWords {
+  margin: 0;
   text-align: center;
   text-transform: uppercase;
-  margin: 0;
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
 }
 
 .categoryDesc {
+  margin: 0;
   text-align: center;
   text-transform: uppercase;
   font-weight: bold;
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
-  margin-bottom: 0.5rem;
 }
 
 .category1 {
-  background-color: #fbd400;
+  background-color: var(--yellow-color);
 }
 
 .category2 {
-  background-color: #b5e352;
+  background-color: var(--green-color);
 }
 
 .category3 {
-  background-color: #729eeb;
+  background-color: var(--blue-color);
 }
 
 .category4 {
-  background-color: #bc70c4;
+  background-color: var(--purple-color);
 }
 
 .alertWrapper {
@@ -252,21 +257,33 @@
   top: 2rem;
 }
 
-.gameWonWrapper {
+.gameWonWrapper[open] {
   display: flex;
-  background-color: white;
-  position: absolute;
-  box-shadow: 0 0 10rem 0.01rem rgb(134, 132, 147);
   flex-direction: column;
-  justify-content: flex-start;
+  justify-content: space-between;
   align-items: center;
-  left: 50%;
-  top: 40%;
-  transform: translate(-50%, -50%);
-  z-index: 999;
-  height: 30rem;
+  background-color: white;
+  box-shadow: 0 0 1rem 0.01rem rgb(174, 173, 183);
   width: 20rem;
+  margin-top: 15vh;
+  border: none;
   border-radius: 0.5rem;
+  padding: 30px;
+  gap: 45px;
+}
+
+.gameWonWrapperTop {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 25px;
+}
+
+.gameWonWrapperBottom {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
 }
 
 .moveRow {
@@ -276,36 +293,21 @@
   text-align: center;
 }
 
-.movesWrapper {
-  margin-top: 2.7rem;
-}
-
-.gameWonMsg {
-  margin-top: 3rem;
-  margin-bottom: 0.2rem;
-}
-
-.gameWonCreateNewWrapper {
-  position: absolute;
-  bottom: 3rem;
+.gameWonButtonWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
 }
 
 .gameWonSubheading {
-  margin: 0;
+  text-align: center;
 }
 
-.closePopupButton {
+.gameWonCloseButton {
   background: none;
   border: none;
-  position: absolute;
-  right: 1rem;
-  top: 0.5rem;
-  font-size: 1.5rem;
-  margin: 0;
-  padding: 0;
+  font-size: 1rem;
+  text-decoration: underline;
   color: black;
-}
-
-.closePopupButton:hover {
-  cursor: pointer;
 }

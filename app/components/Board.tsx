@@ -1,24 +1,28 @@
 'use client';
 
-import { useState, useRef, FC, useMemo } from 'react';
-import styles from 'app/styles/page.module.css';
-import Alert from './Alert';
-import GameOverDialog from './GameOverDialog';
-import { GameStatus, SerializableWordGroup, Word, WordGroup } from '../types';
+import { motion } from 'framer-motion';
+import dynamic from 'next/dynamic';
+import { FC, useMemo, useRef, useState } from 'react';
 import { Textfit } from 'react-textfit';
+
+import styles from '@/styles/page.module.css';
+import { GameStatus, SerializableWordGroup, Word, WordGroup } from '@/types';
 import {
   isOneAwayFromSharedParent,
   isSharedParentGroup,
   toCombinedWordList,
-  toShuffledArray,
   toDeserializedWordGroups,
-} from '../util';
-import { motion } from 'framer-motion';
-import dynamic from 'next/dynamic';
+  toShuffledArray,
+} from '@/util';
+import { isPrefixArr } from '@/util/isPrefixArr';
+
+import Alert from './Alert';
+import GameOverDialog from './GameOverDialog';
 
 const NUM_GUESSES = 4;
-const ALERT_DELAY_MS = 2000;
+const ALERT_DELAY_MS = 2_000;
 const SUCCESSFUL_GUESS_ANIM_LEN_MS = 500;
+const SHOW_GAME_END_DIALOG_DELAY_MS = 1_000;
 
 type BoardProps = {
   wordGroups: SerializableWordGroup[];
@@ -39,7 +43,7 @@ const Board: FC<BoardProps> = ({ wordGroups, gameId }) => {
 
   const deserializedWordGroups = useMemo(
     () => toDeserializedWordGroups(wordGroups),
-    []
+    [wordGroups]
   );
 
   const remainingWordGroups = useMemo(
@@ -76,9 +80,7 @@ const Board: FC<BoardProps> = ({ wordGroups, gameId }) => {
       selectedWords.includes(word)
     );
 
-    if (
-      shuffledWords.slice(0, 4).every((word, i) => orderedGuess[i] === word)
-    ) {
+    if (isPrefixArr(orderedGuess, shuffledWords)) {
       setShuffledWords(words =>
         words.filter(word => !selectedWords.includes(word))
       );
@@ -98,8 +100,10 @@ const Board: FC<BoardProps> = ({ wordGroups, gameId }) => {
 
     if (foundWordGroups.length === 3) {
       triggerAlert('You won!', true);
-      setShowGameOver(true);
       setGameStatus(GameStatus.WON);
+      setTimeout(() => {
+        setShowGameOver(true);
+      }, SHOW_GAME_END_DIALOG_DELAY_MS);
     }
   };
 
@@ -107,17 +111,21 @@ const Board: FC<BoardProps> = ({ wordGroups, gameId }) => {
     setMistakesRemaining(mistakes => mistakes - 1);
     triggerMistakeAnimation();
 
-    if (mistakesRemaining === 1) {
+    if (isOneAwayFromSharedParent(selectedWords)) {
+      triggerAlert('One away...');
+    } else if (mistakesRemaining === 1) {
       triggerAlert('You lost :(', true);
       setGameStatus(GameStatus.LOST);
-      setShowGameOver(true);
-    } else if (isOneAwayFromSharedParent(selectedWords)) {
-      triggerAlert('One away...');
+      setTimeout(() => {
+        setShowGameOver(true);
+      }, SHOW_GAME_END_DIALOG_DELAY_MS);
     }
   };
 
   const handleGuess = () => {
-    if (selectedWords.length !== 4) return;
+    if (selectedWords.length !== 4) {
+      return;
+    }
 
     if (
       previousGuesses.some(guess =>
@@ -164,15 +172,17 @@ const Board: FC<BoardProps> = ({ wordGroups, gameId }) => {
       <div className={styles.pageCenter}>
         <p>Create four groups of four!</p>
         <div
-          className={`${styles.wordContainer} ${
-            showMistakeAnimation && styles.mistakeAnimation
-          }`}
+          className={[
+            styles.wordContainer,
+            showMistakeAnimation && styles.mistakeAnimation,
+          ].join(' ')}
         >
           {foundWordGroups.map((group: WordGroup) => (
             <div
-              className={`${styles.foundGroup} ${
-                styles[`category${group.difficulty}`]
-              }`}
+              className={[
+                styles.foundGroup,
+                styles[`category${group.difficulty}`],
+              ].join(' ')}
               key={group.id}
             >
               <p className={styles.categoryDesc}>{group.desc}</p>
@@ -184,11 +194,12 @@ const Board: FC<BoardProps> = ({ wordGroups, gameId }) => {
           {shuffledWords.map(word => (
             <motion.button
               key={word.id}
-              className={`${styles.wordBox} ${
+              className={[
+                styles.wordBox,
                 selectedWords.includes(word)
                   ? styles.selected
-                  : styles.unselected
-              }`}
+                  : styles.unselected,
+              ].join(' ')}
               onClick={() => handleWordClick(word)}
               disabled={gameStatus !== GameStatus.IN_PROGRESS}
               layout
@@ -221,24 +232,27 @@ const Board: FC<BoardProps> = ({ wordGroups, gameId }) => {
           {gameStatus === GameStatus.IN_PROGRESS ? (
             <>
               <button
-                className={styles.secondaryButton}
+                className={[styles.secondaryButton, 'scaleButton'].join(' ')}
                 onClick={shuffleRemainingWords}
               >
                 Shuffle
               </button>
               <button
-                className={styles.secondaryButton}
+                className={[styles.secondaryButton, 'scaleButton'].join(' ')}
                 onClick={deselectAllWords}
               >
                 Deselect All
               </button>
-              <button className={styles.primaryButton} onClick={handleGuess}>
+              <button
+                className={[styles.primaryButton, 'scaleButton'].join(' ')}
+                onClick={handleGuess}
+              >
                 Submit
               </button>
             </>
           ) : (
             <button
-              className={styles.secondaryButton}
+              className={[styles.secondaryButton, 'scaleButton'].join(' ')}
               onClick={() => setShowGameOver(true)}
               disabled={showGameOver}
             >
